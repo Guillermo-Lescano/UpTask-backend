@@ -15,10 +15,10 @@ dotenv.config()
 conectarDB()
 
 //Routing , vamos a agrupar las rutas, para usuarios, proyectos, tareas
-
 /* app.use('/', (req, res) =>{ // cuando alguien visite la diagonal / (seria el endpoint) tenemos accesos a request y response, se puede usar app.get
     //request es lo que envias, y response es lo que recibo
     res.send('Hola mundo')  // antes de send, se puede usar un .json({msg: 'ok})
+    haciendo pruebas
 }) */
 
 //Configurar cors
