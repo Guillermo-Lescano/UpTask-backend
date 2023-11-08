@@ -79,7 +79,7 @@ const confirmar = async (req, res) =>{
   const {token} = req.params  //es params porque toma lo que le ponemos despues de los : en la ruta, al ser dinamico puede ir cambiando
   const usuarioConfirmar = await Usuario.findOne({token})
   if(!usuarioConfirmar){
-    const error = new Error("El token no es correcto")
+    const error = new Error("El token no es valido")
     return res.status(403).json({msg: error.message })
   }
   try {
