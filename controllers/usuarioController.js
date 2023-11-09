@@ -13,7 +13,7 @@ export { usuarios, creandoUsuario };
 import Usuario from '../models/Usuario.js'
 import generarId from '../helpers/generarId.js';
 import generarJWT from '../helpers/generarJWT.js';
-import {emailRegistro} from '../helpers/email.js'
+import {emailRegistro, emailOlvidePass} from '../helpers/email.js'
 
 const registrar = async (req, res) => {
     //console.log(req.body)   //es bodi porque asi se lo pasamos en postman
@@ -96,7 +96,6 @@ const olvidePassword = async (req, res) =>{
   const { email } = req.body
   //Comprobar si el usuario existe
   const usuario = await Usuario.findOne({email})
-  console.log(usuario)
   if(!usuario){
     const error = new Error("El usuario no existe")
     return res.status(404).json({msg: error.message })  //es 404 porque es ecodigo es cuando no encuentra algo
@@ -104,7 +103,16 @@ const olvidePassword = async (req, res) =>{
   try {
     usuario.token = generarId()
     await usuario.save()
-    res.json({msj: 'Hemos enviado un email con las instrucciones'})
+
+    //Enviamos el email
+    emailOlvidePass({
+      nombre: usuario.nombre,
+      email: usuario.email,
+      token: usuario.token 
+    })
+
+
+    res.json({msg: 'Hemos enviado un email con las instrucciones'})
   } catch (error) {
     console.log(error)
   }

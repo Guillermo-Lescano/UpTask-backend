@@ -6,6 +6,7 @@ export const emailRegistro = async(datos) => {
   const { email, nombre, token } = datos;
 
   //creamos esto que lo sacamos de mailtrap, con sis credenciales
+  //TODO: Mover a variables de entorno
   const transport = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
@@ -29,6 +30,38 @@ export const emailRegistro = async(datos) => {
     <a href="${process.env.FRONTEND_URL}/confirmar-cuenta/${token}">Comprobar cuenta</a>
 
     <p>Si tu no creaste esta cuenta puedes ignorar este email</p>
+    `
+  })
+};
+
+
+export const emailOlvidePass = async(datos) => {
+  const { email, nombre, token } = datos;
+
+  //creamos esto que lo sacamos de mailtrap, con sis credenciales
+  const transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "60651dbe778ba4",
+      pass: "fef64292443c57",
+    },
+  });
+
+  //Informacion del email
+
+  const info = await transport.sendMail({ //sendmail envia el mail una vez configurado todo
+    from: '"UpTask - Administrador de proyecto" <cuentas@uptask.com>',
+    to: email,
+    subject: 'UpTask - Restablece tu password',
+    text: "Restablece tu password",
+    html: `<p>Hola: ${nombre} has solicitado restablecer tus password</p>
+
+    <p>Sigue el siguiente enlace para generar un nuevo password: </p>
+    
+    <a href="${process.env.FRONTEND_URL}/olvide-password/${token}">Restablecer password</a>
+
+    <p>Si tu no solicitaste este email, puedes ignorar este mensaje</p>
     `
   })
 };
