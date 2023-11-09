@@ -123,7 +123,7 @@ const comprobarToken = async (req, res) =>{
   const tokenValido = await Usuario.findOne({token})
 
   if(tokenValido){
-    res.json({msj: 'Token Valido y el Usuario existe'})
+    res.json({msg: 'Token Valido y el Usuario existe'})
   }
   else{
     const error = new Error("El Token no es valido")
