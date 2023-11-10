@@ -2,26 +2,26 @@
 
 import nodemailer from "nodemailer";
 
-export const emailRegistro = async(datos) => {
+export const emailRegistro = async (datos) => {
   const { email, nombre, token } = datos;
 
-  //creamos esto que lo sacamos de mailtrap, con sis credenciales
-  //TODO: Mover a variables de entorno
+  //creamos esto que lo sacamos de mailtrap, con sus credenciales
   const transport = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     auth: {
-      user: "60651dbe778ba4",
-      pass: "fef64292443c57",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
   //Informacion del email
 
-  const info = await transport.sendMail({ //sendmail envia el mail una vez configurado todo
+  const info = await transport.sendMail({
+    //sendmail envia el mail una vez configurado todo
     from: '"UpTask - Administrador de proyecto" <cuentas@uptask.com>',
     to: email,
-    subject: 'UpTask - Confirma tu cuenta',
+    subject: "UpTask - Confirma tu cuenta",
     text: "Comprueba tu cuenta en UpTask",
     html: `<p>Hola: ${nombre} comprueba tu cuenta en UpTask</p>
 
@@ -30,30 +30,30 @@ export const emailRegistro = async(datos) => {
     <a href="${process.env.FRONTEND_URL}/confirmar-cuenta/${token}">Comprobar cuenta</a>
 
     <p>Si tu no creaste esta cuenta puedes ignorar este email</p>
-    `
-  })
+    `,
+  });
 };
 
-
-export const emailOlvidePass = async(datos) => {
+export const emailOlvidePass = async (datos) => {
   const { email, nombre, token } = datos;
 
-  //creamos esto que lo sacamos de mailtrap, con sis credenciales
+  //creamos esto que lo sacamos de mailtrap, con sus credenciales
   const transport = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     auth: {
-      user: "60651dbe778ba4",
-      pass: "fef64292443c57",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
   //Informacion del email
 
-  const info = await transport.sendMail({ //sendmail envia el mail una vez configurado todo
+  const info = await transport.sendMail({
+    //sendmail envia el mail una vez configurado todo
     from: '"UpTask - Administrador de proyecto" <cuentas@uptask.com>',
     to: email,
-    subject: 'UpTask - Restablece tu password',
+    subject: "UpTask - Restablece tu password",
     text: "Restablece tu password",
     html: `<p>Hola: ${nombre} has solicitado restablecer tus password</p>
 
@@ -62,6 +62,6 @@ export const emailOlvidePass = async(datos) => {
     <a href="${process.env.FRONTEND_URL}/olvide-password/${token}">Restablecer password</a>
 
     <p>Si tu no solicitaste este email, puedes ignorar este mensaje</p>
-    `
-  })
+    `,
+  });
 };
