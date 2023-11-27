@@ -2,7 +2,8 @@ import Proyecto from "../models/Proyecto.js"
 import Tarea from "../models/Tarea.js"
 //obtenemos todos los proyectos del usuario auntenticado 
 const obtenerProyectos = async (req, res) =>{
-    const proyectos = await Proyecto.find().where('creador').equals(req.usuario) //el find nos trae todos los proyectos que tenemos en la DB
+    const proyectos = await Proyecto.find().where('creador').equals(req.usuario).select('-tareas')
+    //el find nos trae todos los proyectos que tenemos en la DB
     res.json(proyectos)
 }
 
@@ -22,8 +23,8 @@ const nuevoProyecto = async (req, res) =>{
 //nuevo proyecto
 const obtenerProyecto = async (req, res) =>{
     const {id} = req.params
-    const proyecto = await Proyecto.findById(id)    //busco en la db el primer proyecto que encuentre con el id que le esto pasando
-
+    const proyecto = await Proyecto.findById(id).populate('tareas')//busco en la db el primer proyecto que encuentre con el id que le esto pasando
+                                                        //Aca usamos el tareas como lo pusimos en el modelo del Proyecto
     if(!proyecto){
         const error = new Error("No Encontrado")
         return res.status(404).json({msg: error.message })
