@@ -29,10 +29,10 @@ const proyectosSchema = mongoose.Schema({
     },
     //el campo que agregamos que es tarea, hace referencia de que este proyecto tiene una tarea, y hace referencia a esta tarea
     //esta en un bojeto que ya el proyuecto va a tener multiples tareas
-    tareas: [
+    tareas: [//Mongoose puede almacenar muchisimos datos, es muy buena para manejar muchos datos
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Tarea'
+            ref:"Tarea"
         }
     ],
     colaboradores: [    //es un arreglo ya que puede haber 1 o muchos colaboradores
